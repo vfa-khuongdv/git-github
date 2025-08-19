@@ -1,0 +1,62 @@
+{
+  "name": "git-backlog",
+  "version": "1.0.0",
+  "description": "Git backlog management system",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:integration": "jest --testPathPattern=integration",
+    "lint": "eslint src/ tests/",
+    "lint:fix": "eslint src/ tests/ --fix",
+    "format": "prettier --write \"src/**/*.js\" \"tests/**/*.js\"",
+    "db:migrate": "node scripts/database.js",
+    "sast": "node scripts/sast.js",
+    "precommit": "npm run lint && npm run test:unit && npm run test:coverage && npm run db:migrate && npm run sast && npm run test:integration"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3",
+    "eslint": "^8.45.0",
+    "prettier": "^3.0.0",
+    "nodemon": "^3.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  }
+}
