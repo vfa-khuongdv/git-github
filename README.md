@@ -1,5 +1,7 @@
 # Git Backlog Management System
 
+[![Pipeline](https://github.com/YOUR_USERNAME/git-github/actions/workflows/pipeline.yml/badge.svg)](https://github.com/YOUR_USERNAME/git-github/actions/workflows/pipeline.yml)
+
 A Node.js Express application with comprehensive pre-commit hooks for code quality, testing, and security.
 
 ## Features
@@ -41,6 +43,22 @@ Every commit automatically runs:
 5. **Security Scan** - SAST analysis for vulnerabilities
 6. **Integration Tests** - End-to-end API testing
 
+## GitHub Actions Pipeline
+
+This repository uses a single streamlined GitHub Actions workflow that mirrors the pre-commit pipeline:
+
+### 🔄 Pipeline Workflow (`pipeline.yml`)
+Sequential job execution ensuring quality gates:
+
+1. **🔎 Lint** - ESLint and Prettier formatting checks
+2. **✅ Unit Tests** - Fast isolated tests with coverage generation
+3. **� Coverage** - Enforces 80% code coverage threshold
+4. **🗄 Database** - Runs database migrations
+5. **🛡 SAST** - Static Application Security Testing and npm audit
+6. **🔗 Integration** - End-to-end API testing
+
+The workflow runs on pull requests to `main` and `master` branches, ensuring all quality checks pass before code can be merged.
+
 ## API Endpoints
 
 - `GET /` - API information
@@ -61,6 +79,29 @@ Every commit automatically runs:
 - `npm run db:migrate` - Run database migrations
 - `npm run sast` - Run security analysis
 - `npm run precommit` - Run complete pre-commit pipeline
+
+## GitHub Actions Setup
+
+### Repository Configuration
+
+1. **Update Badge URLs**: Replace `YOUR_USERNAME` in the README badge with your actual GitHub username
+2. **Configure Secrets** (optional):
+   - `CODECOV_TOKEN`: For private repositories using Codecov
+
+### Branch Protection Rules
+
+To ensure the pipeline runs before merging, configure branch protection rules:
+
+1. Go to Settings → Branches
+2. Add rule for `main` branch
+3. Enable "Require status checks to pass before merging"
+4. Select the required check: `🔎 Lint`, `✅ Unit Tests`, `📊 Coverage / Measuring Unit`, `🗄 Database Migration`, `🛡 SAST Security Scan`, `🔗 Integration Tests`
+
+### Workflow Permissions
+
+Ensure your repository has the following permissions enabled:
+- Actions: Read and write permissions
+- Metadata: Read permissions
 
 ## Configuration
 
